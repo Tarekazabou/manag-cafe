@@ -1,0 +1,298 @@
+{
+  "appTitle": "Coffee Shop Manager",
+  "signUp": "Sign Up",
+  "signIn": "Sign In",
+  "email": "Email",
+  "password": "Password",
+  "shopCode": "Shop Code",
+  "shopCodeHelper": "Enter the shop code to join a shop",
+  "alreadyHaveAccount": "Already have an account? Sign in",
+  "noAccount": "Don't have an account? Sign up",
+  "joinShop": "Join Shop",
+  "shopNotFound": "Shop not found. Please sign out and try again.",
+  "signOut": "Sign Out",
+  "signInError": "Failed to sign in: {error}",
+  "signUpError": "Failed to sign up: {error}",
+  "joinShopError": "Failed to join shop: {error}",
+  "requestSentSuccess": "Request sent successfully",
+  "signOutSuccess": "Signed out successfully",
+  "signOutError": "Error signing out: {error}",
+  "itemsScreenTitle": "Inventory Items",
+  "editItem": "Edit Item",
+  "dashboardTitle": "Dashboard",
+  "inventoryTitle": "Record Quantities",
+  "lowStockAlert": "Low Stock Alerts",
+  "searchItems": "Search Items",
+  "sortByName": "Sort by Name",
+  "sortByQuantity": "Sort by Quantity",
+  "sortByThreshold": "Sort by Threshold",
+  "noItems": "No items in inventory.",
+  "saveConfirmationMessage": "Do you want to save the quantities and update sales?",
+  "cancel": "Cancel",
+  "save": "Save",
+  "positiveQuantityError": "Quantities must be positive",
+  "noValidQuantitiesError": "No valid quantities to save",
+  "saveSuccessMessage": "Quantities saved and sales updated",
+  "undo": "Undo",
+  "undoSuccessMessage": "Save operation undone",
+  "saveError": "Error during save",
+  "clearQuantitiesSuccess": "Selected quantities cleared",
+  "prefillQuantitiesSuccess": "Quantities prefilled",
+  "clearSelectedQuantitiesTooltip": "Clear selected quantities",
+  "prefillQuantitiesTooltip": "Prefill quantities",
+  "prefillQuantitiesTitle": "Prefill Quantities",
+  "quantity": "Quantity",
+  "buyPrice": "Buy Price",
+  "sellPrice": "Sell Price",
+  "lowStockThreshold": "Low Stock Threshold",
+  "isSellable": "Is Sellable",
+  "confirm": "Confirm",
+  "sortOrderTooltip": "Change sort order",
+  "date": "Date",
+  "session": "Session",
+  "weather": "Weather",
+  "item": "Item",
+  "quantityHint": "Qty",
+  "invalidInput": "Invalid",
+  "negativeQuantityError": "Must be >= 0",
+  "salesTitle": "Sales",
+  "adminTitle": "Admin",
+  "deliveriesTitle": "Deliveries",
+  "statisticsTitle": "Statistics",
+  "dashboardTooltip": "View Dashboard",
+  "inventoryTooltip": "Manage Inventory",
+  "salesTooltip": "View Sales",
+  "adminTooltip": "Access Admin Settings",
+  "deliveriesTooltip": "Manage Deliveries",
+  "statisticsTooltip": "View Statistics",
+  "errorLoadingRequests": "Error loading requests",
+  "noRequestsFound": "No requests found",
+  "requestDenied": "Request denied",
+  "requestSentWaitingApproval": "Request sent, waiting for owner approval",
+  "unknownUser": "Unknown User",
+  "@appTitle": {
+    "description": "Title of the application"
+  },
+  "@signUp": {
+    "description": "Label for the sign-up button and title"
+  },
+  "@signIn": {
+    "description": "Label for the sign-in button and title"
+  },
+  "@email": {
+    "description": "Label for the email field"
+  },
+  "@password": {
+    "description": "Label for the password field in the sign-up/sign-in form"
+  },
+  "@shopCode": {
+    "description": "Label for the shop code field"
+  },
+  "@shopCodeHelper": {
+    "description": "Helper text for the shop code input field"
+  },
+  "@alreadyHaveAccount": {
+    "description": "Text for the link to switch to sign-in mode"
+  },
+  "@noAccount": {
+    "description": "Text for the link to switch to sign-up mode"
+  },
+  "@joinShop": {
+    "description": "Label for the join shop button"
+  },
+  "@shopNotFound": {
+    "description": "Error message when shop is not found"
+  },
+  "@signOut": {
+    "description": "Label for the sign-out button"
+  },
+  "@signInError": {
+    "description": "Error message for sign-in failure",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@signUpError": {
+    "description": "Error message for sign-up failure",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@joinShopError": {
+    "description": "Error message for failure to join shop",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@requestSentSuccess": {
+    "description": "Success message for sending a shop join request"
+  },
+  "@signOutSuccess": {
+    "description": "Success message for signing out"
+  },
+  "@signOutError": {
+    "description": "Error message for sign-out failure",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@itemsScreenTitle": {
+    "description": "Title for the inventory items screen"
+  },
+  "@editItem": {
+    "description": "Label for editing an inventory item"
+  },
+  "@dashboardTitle": {
+    "description": "Title for the dashboard tab"
+  },
+  "@inventoryTitle": {
+    "description": "Title for the inventory recording screen"
+  },
+  "@lowStockAlert": {
+    "description": "Label for low stock alerts section"
+  },
+  "@searchItems": {
+    "description": "Label for search items input"
+  },
+  "@sortByName": {
+    "description": "Label for sorting items by name"
+  },
+  "@sortByQuantity": {
+    "description": "Label for sorting items by quantity"
+  },
+  "@sortByThreshold": {
+    "description": "Label for sorting items by threshold"
+  },
+  "@noItems": {
+    "description": "Message when there are no items in inventory"
+  },
+  "@saveConfirmationMessage": {
+    "description": "Confirmation message before saving quantities"
+  },
+  "@cancel": {
+    "description": "Label for cancel button"
+  },
+  "@save": {
+    "description": "Label for save button"
+  },
+  "@positiveQuantityError": {
+    "description": "Error message when quantities are not positive"
+  },
+  "@noValidQuantitiesError": {
+    "description": "Error message when there are no valid quantities to save"
+  },
+  "@saveSuccessMessage": {
+    "description": "Success message after saving quantities"
+  },
+  "@undo": {
+    "description": "Label for undo button"
+  },
+  "@undoSuccessMessage": {
+    "description": "Success message after undoing a save operation"
+  },
+  "@saveError": {
+    "description": "Error message during save operation"
+  },
+  "@clearQuantitiesSuccess": {
+    "description": "Success message after clearing selected quantities"
+  },
+  "@prefillQuantitiesSuccess": {
+    "description": "Success message after prefilling quantities"
+  },
+  "@clearSelectedQuantitiesTooltip": {
+    "description": "Tooltip for clearing selected quantities"
+  },
+  "@prefillQuantitiesTooltip": {
+    "description": "Tooltip for prefilling quantities"
+  },
+  "@prefillQuantitiesTitle": {
+    "description": "Title for prefilling quantities dialog"
+  },
+  "@quantity": {
+    "description": "Label for quantity field"
+  },
+  "@buyPrice": {
+    "description": "Label for buy price field"
+  },
+  "@sellPrice": {
+    "description": "Label for sell price field"
+  },
+  "@lowStockThreshold": {
+    "description": "Label for low stock threshold field"
+  },
+  "@isSellable": {
+    "description": "Label for is sellable toggle"
+  },
+  "@confirm": {
+    "description": "Label for confirm button"
+  },
+  "@sortOrderTooltip": {
+    "description": "Tooltip for changing sort order"
+  },
+  "@date": {
+    "description": "Label for date field"
+  },
+  "@session": {
+    "description": "Label for session field"
+  },
+  "@weather": {
+    "description": "Label for weather field"
+  },
+  "@item": {
+    "description": "Label for item field"
+  },
+  "@quantityHint": {
+    "description": "Hint for quantity input field"
+  },
+  "@invalidInput": {
+    "description": "Label for invalid input"
+  },
+  "@negativeQuantityError": {
+    "description": "Error message for negative quantity"
+  },
+  "@salesTitle": {
+    "description": "Title for the sales tab"
+  },
+  "@adminTitle": {
+    "description": "Title for the admin tab"
+  },
+  "@deliveriesTitle": {
+    "description": "Title for the deliveries tab"
+  },
+  "@statisticsTitle": {
+    "description": "Title for the statistics tab"
+  },
+  "@dashboardTooltip": {
+    "description": "Tooltip for the dashboard tab"
+  },
+  "@inventoryTooltip": {
+    "description": "Tooltip for the inventory tab"
+  },
+  "@salesTooltip": {
+    "description": "Tooltip for the sales tab"
+  },
+  "@adminTooltip": {
+    "description": "Tooltip for the admin tab"
+  },
+  "@deliveriesTooltip": {
+    "description": "Tooltip for the deliveries tab"
+  },
+  "@statisticsTooltip": {
+    "description": "Tooltip for the statistics tab"
+  },
+  "@errorLoadingRequests": {
+    "description": "Error message when loading requests fails"
+  },
+  "@noRequestsFound": {
+    "description": "Message when no join requests are found"
+  },
+  "@requestDenied": {
+    "description": "Message when a join request is denied"
+  },
+  "@requestSentWaitingApproval": {
+    "description": "Message when a join request is sent and awaiting approval"
+  },
+  "@unknownUser": {
+    "description": "Label for an unknown user in join requests"
+  }
+}

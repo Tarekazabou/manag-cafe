@@ -1,0 +1,298 @@
+{
+  "appTitle": "Gestionnaire de café",
+  "signUp": "S'inscrire",
+  "signIn": "Se connecter",
+  "email": "E-mail",
+  "password": "Mot de passe",
+  "shopCode": "Code de la boutique",
+  "shopCodeHelper": "Entrez le code de la boutique pour rejoindre une boutique",
+  "alreadyHaveAccount": "Vous avez déjà un compte ? Connectez-vous",
+  "noAccount": "Vous n'avez pas de compte ? Inscrivez-vous",
+  "joinShop": "Rejoindre la boutique",
+  "shopNotFound": "Boutique non trouvée. Veuillez vous déconnecter et réessayer.",
+  "signOut": "Se déconnecter",
+  "signInError": "Échec de la connexion : {error}",
+  "signUpError": "Échec de l'inscription : {error}",
+  "joinShopError": "Échec de l'adhésion à la boutique : {error}",
+  "requestSentSuccess": "Demande envoyée avec succès",
+  "signOutSuccess": "Déconnexion réussie",
+  "signOutError": "Erreur lors de la déconnexion : {error}",
+  "itemsScreenTitle": "Articles d'inventaire",
+  "editItem": "Modifier l'article",
+  "dashboardTitle": "Tableau de bord",
+  "inventoryTitle": "Enregistrer les quantités",
+  "lowStockAlert": "Alertes de stock faible",
+  "searchItems": "Rechercher des articles",
+  "sortByName": "Trier par nom",
+  "sortByQuantity": "Trier par quantité",
+  "sortByThreshold": "Trier par seuil",
+  "noItems": "Aucun article dans l'inventaire.",
+  "saveConfirmationMessage": "Voulez-vous enregistrer les quantités et mettre à jour les ventes ?",
+  "cancel": "Annuler",
+  "save": "Enregistrer",
+  "positiveQuantityError": "Les quantités doivent être positives",
+  "noValidQuantitiesError": "Aucune quantité valide à enregistrer",
+  "saveSuccessMessage": "Quantités enregistrées et ventes mises à jour",
+  "undo": "Annuler",
+  "undoSuccessMessage": "Opération d'enregistrement annulée",
+  "saveError": "Erreur lors de l'enregistrement",
+  "clearQuantitiesSuccess": "Quantités sélectionnées effacées",
+  "prefillQuantitiesSuccess": "Quantités pré-remplies",
+  "clearSelectedQuantitiesTooltip": "Effacer les quantités sélectionnées",
+  "prefillQuantitiesTooltip": "Pré-remplir les quantités",
+  "prefillQuantitiesTitle": "Pré-remplir les quantités",
+  "quantity": "Quantité",
+  "buyPrice": "Prix d'achat",
+  "sellPrice": "Prix de vente",
+  "lowStockThreshold": "Seuil de stock faible",
+  "isSellable": "Est vendable",
+  "confirm": "Confirmer",
+  "sortOrderTooltip": "Changer l'ordre de tri",
+  "date": "Date",
+  "session": "Session",
+  "weather": "Météo",
+  "item": "Article",
+  "quantityHint": "Qté",
+  "invalidInput": "Invalide",
+  "negativeQuantityError": "Doit être >= 0",
+  "salesTitle": "Ventes",
+  "adminTitle": "Admin",
+  "deliveriesTitle": "Livraisons",
+  "statisticsTitle": "Statistiques",
+  "dashboardTooltip": "Voir le tableau de bord",
+  "inventoryTooltip": "Gérer l'inventaire",
+  "salesTooltip": "Voir les ventes",
+  "adminTooltip": "Accéder aux paramètres administrateur",
+  "deliveriesTooltip": "Gérer les livraisons",
+  "statisticsTooltip": "Voir les statistiques",
+  "errorLoadingRequests": "Erreur lors du chargement des demandes",
+  "noRequestsFound": "Aucune demande trouvée",
+  "requestDenied": "Demande refusée",
+  "requestSentWaitingApproval": "Demande envoyée, en attente de l'approbation du propriétaire",
+  "unknownUser": "Utilisateur inconnu",
+  "@appTitle": {
+    "description": "Titre de l'application"
+  },
+  "@signUp": {
+    "description": "Étiquette pour le bouton et le titre d'inscription"
+  },
+  "@signIn": {
+    "description": "Étiquette pour le bouton et le titre de connexion"
+  },
+  "@email": {
+    "description": "Étiquette pour le champ e-mail"
+  },
+  "@password": {
+    "description": "Étiquette pour le champ de mot de passe dans le formulaire d'inscription/connexion"
+  },
+  "@shopCode": {
+    "description": "Étiquette pour le champ de code de boutique"
+  },
+  "@shopCodeHelper": {
+    "description": "Texte d'aide pour le champ de saisie du code de boutique"
+  },
+  "@alreadyHaveAccount": {
+    "description": "Texte pour le lien permettant de passer en mode connexion"
+  },
+  "@noAccount": {
+    "description": "Texte pour le lien permettant de passer en mode inscription"
+  },
+  "@joinShop": {
+    "description": "Étiquette pour le bouton de rejoindre la boutique"
+  },
+  "@shopNotFound": {
+    "description": "Message d'erreur lorsque la boutique n'est pas trouvée"
+  },
+  "@signOut": {
+    "description": "Étiquette pour le bouton de déconnexion"
+  },
+  "@signInError": {
+    "description": "Message d'erreur pour l'échec de la connexion",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@signUpError": {
+    "description": "Message d'erreur pour l'échec de l'inscription",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@joinShopError": {
+    "description": "Message d'erreur pour l'échec de l'adhésion à la boutique",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@requestSentSuccess": {
+    "description": "Message de succès pour l'envoi d'une demande d'adhésion à la boutique"
+  },
+  "@signOutSuccess": {
+    "description": "Message de succès pour la déconnexion"
+  },
+  "@signOutError": {
+    "description": "Message d'erreur pour l'échec de la déconnexion",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "@itemsScreenTitle": {
+    "description": "Titre de l'écran des articles d'inventaire"
+  },
+  "@editItem": {
+    "description": "Étiquette pour la modification d'un article d'inventaire"
+  },
+  "@dashboardTitle": {
+    "description": "Titre de l'onglet tableau de bord"
+  },
+  "@inventoryTitle": {
+    "description": "Titre de l'écran d'enregistrement d'inventaire"
+  },
+  "@lowStockAlert": {
+    "description": "Étiquette pour la section des alertes de stock faible"
+  },
+  "@searchItems": {
+    "description": "Étiquette pour l'entrée de recherche d'articles"
+  },
+  "@sortByName": {
+    "description": "Étiquette pour trier les articles par nom"
+  },
+  "@sortByQuantity": {
+    "description": "Étiquette pour trier les articles par quantité"
+  },
+  "@sortByThreshold": {
+    "description": "Étiquette pour trier les articles par seuil"
+  },
+  "@noItems": {
+    "description": "Message lorsqu'il n'y a pas d'articles dans l'inventaire"
+  },
+  "@saveConfirmationMessage": {
+    "description": "Message de confirmation avant l'enregistrement des quantités"
+  },
+  "@cancel": {
+    "description": "Étiquette pour le bouton annuler"
+  },
+  "@save": {
+    "description": "Étiquette pour le bouton enregistrer"
+  },
+  "@positiveQuantityError": {
+    "description": "Message d'erreur lorsque les quantités ne sont pas positives"
+  },
+  "@noValidQuantitiesError": {
+    "description": "Message d'erreur lorsqu'il n'y a pas de quantités valides à enregistrer"
+  },
+  "@saveSuccessMessage": {
+    "description": "Message de succès après l'enregistrement des quantités"
+  },
+  "@undo": {
+    "description": "Étiquette pour le bouton annuler"
+  },
+  "@undoSuccessMessage": {
+    "description": "Message de succès après l'annulation d'une opération d'enregistrement"
+  },
+  "@saveError": {
+    "description": "Message d'erreur lors de l'opération d'enregistrement"
+  },
+  "@clearQuantitiesSuccess": {
+    "description": "Message de succès après l'effacement des quantités sélectionnées"
+  },
+  "@prefillQuantitiesSuccess": {
+    "description": "Message de succès après le pré-remplissage des quantités"
+  },
+  "@clearSelectedQuantitiesTooltip": {
+    "description": "Infobulle pour effacer les quantités sélectionnées"
+  },
+  "@prefillQuantitiesTooltip": {
+    "description": "Infobulle pour pré-remplir les quantités"
+  },
+  "@prefillQuantitiesTitle": {
+    "description": "Titre de la boîte de dialogue pour pré-remplir les quantités"
+  },
+  "@quantity": {
+    "description": "Étiquette pour le champ de quantité"
+  },
+  "@buyPrice": {
+    "description": "Étiquette pour le champ du prix d'achat"
+  },
+  "@sellPrice": {
+    "description": "Étiquette pour le champ du prix de vente"
+  },
+  "@lowStockThreshold": {
+    "description": "Étiquette pour le champ du seuil de stock faible"
+  },
+  "@isSellable": {
+    "description": "Étiquette pour l'option de vendabilité"
+  },
+  "@confirm": {
+    "description": "Étiquette pour le bouton confirmer"
+  },
+  "@sortOrderTooltip": {
+    "description": "Infobulle pour changer l'ordre de tri"
+  },
+  "@date": {
+    "description": "Étiquette pour le champ de date"
+  },
+  "@session": {
+    "description": "Étiquette pour le champ de session"
+  },
+  "@weather": {
+    "description": "Étiquette pour le champ de météo"
+  },
+  "@item": {
+    "description": "Étiquette pour le champ d'article"
+  },
+  "@quantityHint": {
+    "description": "Indication pour le champ de saisie de quantité"
+  },
+  "@invalidInput": {
+    "description": "Étiquette pour une entrée invalide"
+  },
+  "@negativeQuantityError": {
+    "description": "Message d'erreur pour une quantité négative"
+  },
+  "@salesTitle": {
+    "description": "Titre de l'onglet des ventes"
+  },
+  "@adminTitle": {
+    "description": "Titre de l'onglet admin"
+  },
+  "@deliveriesTitle": {
+    "description": "Titre de l'onglet des livraisons"
+  },
+  "@statisticsTitle": {
+    "description": "Titre de l'onglet des statistiques"
+  },
+  "@dashboardTooltip": {
+    "description": "Infobulle pour l'onglet tableau de bord"
+  },
+  "@inventoryTooltip": {
+    "description": "Infobulle pour l'onglet inventaire"
+  },
+  "@salesTooltip": {
+    "description": "Infobulle pour l'onglet ventes"
+  },
+  "@adminTooltip": {
+    "description": "Infobulle pour l'onglet admin"
+  },
+  "@deliveriesTooltip": {
+    "description": "Infobulle pour l'onglet livraisons"
+  },
+  "@statisticsTooltip": {
+    "description": "Infobulle pour l'onglet statistiques"
+  },
+  "@errorLoadingRequests": {
+    "description": "Message d'erreur lorsque le chargement des demandes échoue"
+  },
+  "@noRequestsFound": {
+    "description": "Message lorsqu'aucune demande d'adhésion n'est trouvée"
+  },
+  "@requestDenied": {
+    "description": "Message lorsqu'une demande d'adhésion est refusée"
+  },
+  "@requestSentWaitingApproval": {
+    "description": "Message lorsqu'une demande d'adhésion est envoyée et en attente d'approbation"
+  },
+  "@unknownUser": {
+    "description": "Étiquette pour un utilisateur inconnu dans les demandes d'adhésion"
+  }
+}

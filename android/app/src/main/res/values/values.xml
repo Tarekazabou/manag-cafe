@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">782520839919</string>
+    <string name="google_api_key" translatable="false">AIzaSyBrJ4j6FL6TEesBUvbC14c6Y8-dQjvzYoo</string>
+    <string name="google_app_id" translatable="false">1:782520839919:android:3377183b6fcba50d10f51a</string>
+    <string name="google_storage_bucket" translatable="false">manag-cafe.firebasestorage.app</string>
+    <string name="project_id" translatable="false">manag-cafe</string>
+</resources>
