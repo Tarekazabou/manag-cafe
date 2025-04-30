@@ -28,7 +28,7 @@ class _ManageRequestsScreenState extends State<ManageRequestsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(shopId!),
+        title: Text(shopId),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

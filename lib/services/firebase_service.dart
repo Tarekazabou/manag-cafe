@@ -1,96 +1,122 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/inventory_item.dart';
 import '../models/sale.dart';
 import '../models/inventory_snapshot.dart';
 
 class FirebaseService {
-  final DatabaseReference _db = FirebaseDatabase.instance.ref();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Save or update inventory item in Firebase
+  Future<bool> isEmployee(String shopId, String userId) async {
+    try {
+      final userDoc = await _firestore
+          .collection('shops')
+          .doc(shopId)
+          .collection('users')
+          .doc(userId)
+          .get();
+      return userDoc.exists && userDoc.data()!['status'] == 'accepted';
+    } catch (e) {
+      print('Error checking employee status for shopId: $shopId: $e');
+      return false;
+    }
+  }
+
   Future<void> saveInventoryItem(String shopId, InventoryItem item) async {
     try {
-      await _db.child('shops').child(shopId).child('inventory').child(item.id).set(item.toJson());
+      await _firestore
+          .collection('shops')
+          .doc(shopId)
+          .collection('inventory')
+          .doc(item.id)
+          .set(item.toJson());
     } catch (e) {
-      print('Error saving inventory item: $e');
-      rethrow;
+      throw Exception('Error saving inventory item for shopId: $shopId: $e');
     }
   }
 
-  // Listen for inventory changes in real-time
-  Stream<List<InventoryItem>> getInventoryStream(String shopId) {
-    return _db.child('shops').child(shopId).child('inventory').onValue.map((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
-      if (data == null) return [];
-      return data.entries.map((entry) {
-        return InventoryItem.fromJson(Map<String, dynamic>.from(entry.value));
-      }).toList();
-    });
-  }
-
-  // Save or update sale in Firebase
   Future<void> saveSale(String shopId, Sale sale) async {
     try {
-      await _db.child('shops').child(shopId).child('sales').child(sale.id).set(sale.toJson());
+      await _firestore
+          .collection('shops')
+          .doc(shopId)
+          .collection('sales')
+          .doc(sale.id)
+          .set(sale.toJson());
     } catch (e) {
-      print('Error saving sale: $e');
-      rethrow;
+      throw Exception('Error saving sale for shopId: $shopId: $e');
     }
   }
 
-  // Delete sale from Firebase
   Future<void> deleteSale(String shopId, String saleId) async {
     try {
-      await _db.child('shops').child(shopId).child('sales').child(saleId).remove();
+      await _firestore
+          .collection('shops')
+          .doc(shopId)
+          .collection('sales')
+          .doc(saleId)
+          .delete();
     } catch (e) {
-      print('Error deleting sale: $e');
-      rethrow;
+      throw Exception('Error deleting sale for shopId: $shopId: $e');
     }
   }
 
-  // Listen for sales changes in real-time
-  Stream<List<Sale>> getSalesStream(String shopId) {
-    return _db.child('shops').child(shopId).child('sales').onValue.map((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
-      if (data == null) return [];
-      return data.entries.map((entry) {
-        return Sale.fromJson(Map<String, dynamic>.from(entry.value));
-      }).toList();
-    });
-  }
-
-  // Save or update snapshot in Firebase
   Future<void> saveSnapshot(String shopId, InventorySnapshot snapshot) async {
     try {
-      await _db.child('shops').child(shopId).child('snapshots').child(snapshot.id).set(snapshot.toJson());
+      await _firestore
+          .collection('shops')
+          .doc(shopId)
+          .collection('snapshots')
+          .doc(snapshot.id)
+          .set(snapshot.toJson());
     } catch (e) {
-      print('Error saving snapshot: $e');
-      rethrow;
+      throw Exception('Error saving snapshot for shopId: $shopId: $e');
     }
   }
 
-  // Listen for snapshots changes in real-time
+  Stream<List<InventoryItem>> getInventoryStream(String shopId) {
+    return _firestore
+        .collection('shops')
+        .doc(shopId)
+        .collection('inventory')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => InventoryItem.fromJson(doc.data()))
+            .toList());
+  }
+
+  Stream<List<Sale>> getSalesStream(String shopId) {
+    return _firestore
+        .collection('shops')
+        .doc(shopId)
+        .collection('sales')
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => Sale.fromJson(doc.data())).toList());
+  }
+
   Stream<List<InventorySnapshot>> getSnapshotsStream(String shopId) {
-    return _db.child('shops').child(shopId).child('snapshots').onValue.map((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
-      if (data == null) return [];
-      return data.entries.map((entry) {
-        return InventorySnapshot.fromJson(Map<String, dynamic>.from(entry.value));
-      }).toList();
-    });
+    return _firestore
+        .collection('shops')
+        .doc(shopId)
+        .collection('snapshots')
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => InventorySnapshot.fromJson(doc.data()))
+            .toList());
   }
 
-  // Get pending requests for the owner
   Stream<Map<String, dynamic>> getPendingRequests(String shopId) {
-    return _db.child('shops').child(shopId).child('requests').onValue.map((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
-      if (data == null) return {};
-      return Map<String, dynamic>.from(data);
+    return _firestore
+        .collection('shops')
+        .doc(shopId)
+        .collection('joinRequests')
+        .snapshots()
+        .map((snapshot) {
+      final requests = <String, dynamic>{};
+      for (var doc in snapshot.docs) {
+        requests[doc.id] = doc.data();
+      }
+      return requests;
     });
-  }
-
-  // Check if user is an employee of the shop
-  Future<bool> isEmployee(String shopId, String userId) async {
-    final snapshot = await _db.child('shops').child(shopId).child('employees').child(userId).get();
-    return snapshot.exists;
   }
 }

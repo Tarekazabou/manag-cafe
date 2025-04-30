@@ -9,9 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'providers/app_provider.dart';
 import 'screens/dashboard_screen.dart';
-import 'screens/inventory_screen.dart';
 import 'screens/sales_screen.dart';
-import 'screens/admin_screen.dart';
 import 'screens/deliveries_screen.dart';
 import 'screens/statistics_screen.dart';
 import 'services/auth_service.dart';
@@ -24,7 +22,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
+    print('Firebase initialized successfully');
+  } catch (e) {
+    print('Error initializing Firebase: $e');
+  }
+
   await FirebaseAuth.instance.setLanguageCode('fr');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   final messaging = FirebaseMessaging.instance;
@@ -290,7 +294,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _shopCodeController = TextEditingController();
   final AuthService _authService = AuthService();
   bool _isLoading = false;
-  String? _errorMessage;
   bool _isSignUpMode = false;
   bool _showShopCodeField = false;
 
@@ -305,7 +308,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _signIn() async {
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
     });
 
     try {
@@ -313,72 +315,93 @@ class _LoginScreenState extends State<LoginScreen> {
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
-      setState(() {
-        _showShopCodeField = true;
-      });
+      if (mounted) {
+        setState(() {
+          _showShopCodeField = true;
+        });
+      }
     } catch (e) {
-      setState(() {
-        _errorMessage = AppLocalizations.of(context)!.signInError(e.toString());
-      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.signInError(e.toString())),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
   Future<void> _signUp() async {
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
     });
 
     try {
-    await _authService.signUp(
-      _emailController.text.trim(),
-      _passwordController.text.trim(),
-      _shopCodeController.text.trim(), // Added the missing argument
-    );
-    if (mounted) { // Check if the widget is still mounted
-      setState(() {
-        _showShopCodeField = true;
-      });
+      await _authService.signUp(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+      if (mounted) {
+        setState(() {
+          _showShopCodeField = true;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.signUpError(e.toString())),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
-  } catch (e) {
-    if (mounted) { // Check if the widget is still mounted
-      setState(() {
-        _errorMessage = AppLocalizations.of(context)!.signUpError(e.toString());
-      });
-    }
-  } finally {
-    if (mounted) { // Check if the widget is still mounted
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
   }
 
   Future<void> _joinShop() async {
     setState(() {
       _isLoading = true;
-      _errorMessage = null;
     });
 
     try {
       final appProvider = Provider.of<AppProvider>(context, listen: false);
       await appProvider.requestToJoinShop(_shopCodeController.text.trim());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(appProvider.errorMessage ?? AppLocalizations.of(context)!.requestSentSuccess)),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(appProvider.errorMessage ?? AppLocalizations.of(context)!.requestSentSuccess),
+            backgroundColor: appProvider.errorMessage != null ? Colors.red : Colors.green,
+          ),
+        );
+      }
     } catch (e) {
-      setState(() {
-        _errorMessage = AppLocalizations.of(context)!.joinShopError(e.toString());
-      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.joinShopError(e.toString())),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -395,15 +418,12 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Logo or Title
               Text(
                 _isSignUpMode ? localizations.signUp : localizations.signIn,
                 style: theme.textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
-
-              // Email Field
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -413,8 +433,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
-
-              // Password Field
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -424,8 +442,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
               ),
               const SizedBox(height: 16),
-
-              // Shop Code Field (shown after successful sign-in/sign-up)
               if (_showShopCodeField)
                 TextField(
                   controller: _shopCodeController,
@@ -436,19 +452,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               if (_showShopCodeField) const SizedBox(height: 16),
-
-              // Error Message
-              if (_errorMessage != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    _errorMessage!,
-                    style: const TextStyle(color: Colors.red),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-
-              // Buttons
               if (!_showShopCodeField)
                 _isLoading
                     ? const Center(child: CircularProgressIndicator())
@@ -469,7 +472,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               setState(() {
                                 _isSignUpMode = !_isSignUpMode;
-                                _errorMessage = null;
                                 _emailController.clear();
                                 _passwordController.clear();
                               });
@@ -522,7 +524,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const DashboardScreen(),
       const InventoryScreen(),
       const SalesScreen(),
-      const ManageRequestsScreen(), // Replaced AdminScreen
+      const ManageRequestsScreen(),
       const DeliveriesScreen(),
       const StatisticsScreen(),
     ];
@@ -651,7 +653,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Placeholder implementation of InventoryScreen
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
 

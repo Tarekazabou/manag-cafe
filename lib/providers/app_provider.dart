@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:uuid/uuid.dart';
-import 'package:flutter/foundation.dart'; // For compute
 import '../models/inventory_item.dart';
 import '../models/sale.dart';
 import '../models/inventory_snapshot.dart';
@@ -23,7 +21,6 @@ class AppProvider with ChangeNotifier {
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
   final AuthService _authService = AuthService();
   final FirebaseService _firebaseService = FirebaseService();
-  final Uuid _uuid = Uuid();
 
   String? _shopId;
   String? _shopCode;
@@ -71,17 +68,16 @@ class AppProvider with ChangeNotifier {
 
   Future<void> _loadUserShopData(User user) async {
     try {
-      final userSnapshot = await FirebaseDatabase.instance
-          .ref()
-          .child('users')
-          .child(user.uid)
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
           .get();
-      if (!userSnapshot.exists) {
+      if (!userDoc.exists) {
         _resetState('User data not found.');
         return;
       }
 
-      final userData = userSnapshot.value as Map<dynamic, dynamic>;
+      final userData = userDoc.data() as Map<String, dynamic>;
       _shopId = userData['shopId']?.toString();
 
       if (_shopId == null) {
@@ -90,21 +86,23 @@ class AppProvider with ChangeNotifier {
       }
 
       bool isEmployee = await _firebaseService.isEmployee(_shopId!, user.uid);
-      final shopSnapshot =
-          await FirebaseDatabase.instance.ref().child('shops').child(_shopId!).get();
-      if (!shopSnapshot.exists) {
+      final shopDoc = await FirebaseFirestore.instance
+          .collection('shops')
+          .doc(_shopId!)
+          .get();
+      if (!shopDoc.exists) {
         _resetState('Shop data not found for shopId: $_shopId');
         return;
       }
 
-      bool isOwner = (shopSnapshot.value as Map)['ownerId'] == user.uid;
+      bool isOwner = (shopDoc.data() as Map<String, dynamic>)['ownerId'] == user.uid;
       if (!isEmployee && !isOwner) {
         _resetState('You are not authorized to access this shop (shopId: $_shopId).');
         return;
       }
 
       _isEmployee = isEmployee;
-      _shopCode = (shopSnapshot.value as Map)['code'] as String?;
+      _shopCode = (shopDoc.data() as Map<String, dynamic>)['shopCode'] as String?;
       await _initializeInventory();
       await _loadData();
       _setupFirebaseSync();
@@ -140,7 +138,7 @@ class AppProvider with ChangeNotifier {
         if (!existingItems.any((item) => item.name == itemName)) {
           print('Adding missing item: $itemName for shopId: $_shopId');
           final item = InventoryItem(
-            id: _uuid.v4(),
+            id: FirebaseFirestore.instance.collection('items').doc().id,
             name: itemName,
             quantity: itemName == 'Sugar' ? 10.0 : 100.0,
             buyPrice: 1.0,
@@ -185,7 +183,7 @@ class AppProvider with ChangeNotifier {
 
   Future<void> _syncInventoryToSQLite(List<InventoryItem> items) async {
     try {
-      await compute(_syncInventoryToSQLiteIsolate, items);
+      await _syncInventoryToSQLiteIsolate(items);
     } catch (e) {
       print('Error syncing inventory to SQLite for shopId: $_shopId: $e');
     }
@@ -288,13 +286,12 @@ class AppProvider with ChangeNotifier {
     try {
       await _dbHelper.deleteInventoryItem(id);
       if (_shopId != null) {
-        await FirebaseDatabase.instance
-            .ref()
-            .child('shops')
-            .child(_shopId!)
-            .child('inventory')
-            .child(id)
-            .remove();
+        await FirebaseFirestore.instance
+            .collection('shops')
+            .doc(_shopId!)
+            .collection('inventory')
+            .doc(id)
+            .delete();
       }
     } catch (e) {
       _errorMessage = 'Error deleting inventory item for shopId: $_shopId: $e';
@@ -418,7 +415,7 @@ class AppProvider with ChangeNotifier {
       await updateInventoryItem(updatedItem);
 
       final snapshot = InventorySnapshot(
-        id: _uuid.v4(),
+        id: FirebaseFirestore.instance.collection('snapshots').doc().id,
         itemId: itemId,
         quantity: deliveredQuantity,
         timestamp: DateTime.now().toIso8601String(),
@@ -460,7 +457,7 @@ class AppProvider with ChangeNotifier {
           final consumption = startQty + delivered - endQty;
           if (consumption > 0) {
             final sale = Sale(
-              id: _uuid.v4(),
+              id: FirebaseFirestore.instance.collection('sales').doc().id,
               itemName: item.name,
               quantity: consumption.toInt(),
               sellingPrice: item.sellPrice,
@@ -599,7 +596,7 @@ class AppProvider with ChangeNotifier {
           final consumed = consumption[item.name] ?? 0;
           if (consumed > 0) {
             final sale = Sale(
-              id: _uuid.v4(),
+              id: FirebaseFirestore.instance.collection('sales').doc().id,
               itemName: item.name,
               quantity: consumed.toInt(),
               sellingPrice: item.sellPrice,
@@ -807,13 +804,11 @@ class AppProvider with ChangeNotifier {
     final user = _authService.currentUser;
     if (user == null || _shopId == null) return false;
     try {
-      final snapshot = await FirebaseDatabase.instance
-          .ref()
-          .child('shops')
-          .child(_shopId!)
-          .child('ownerId')
+      final shopDoc = await FirebaseFirestore.instance
+          .collection('shops')
+          .doc(_shopId!)
           .get();
-      return snapshot.exists && snapshot.value == user.uid;
+      return shopDoc.exists && shopDoc.data()!['ownerId'] == user.uid;
     } catch (e) {
       print('Error checking owner status for shopId: $_shopId: $e');
       return false;
@@ -839,17 +834,15 @@ class AppProvider with ChangeNotifier {
       final user = _authService.currentUser;
       if (user == null) throw Exception('User not logged in');
       final code = await _authService.generateShopCode(user.uid, shopName);
-      _shopId = (await FirebaseDatabase.instance
-              .ref()
-              .child('shops')
-              .orderByChild('code')
-              .equalTo(code)
-              .get())
-          .children
-          .first
-          .key;
-      _shopCode = code;
-      notifyListeners();
+      final shopSnapshot = await FirebaseFirestore.instance
+          .collection('shops')
+          .where('shopCode', isEqualTo: code)
+          .get();
+      if (shopSnapshot.docs.isNotEmpty) {
+        _shopId = shopSnapshot.docs.first.id;
+        _shopCode = code;
+        notifyListeners();
+      }
       return code;
     } catch (e) {
       _errorMessage = 'Error generating shop code: $e';
@@ -871,9 +864,11 @@ class AppProvider with ChangeNotifier {
       if (_shopId == null) throw Exception('Shop ID not set');
       final user = _authService.currentUser;
       if (user == null) throw Exception('User not logged in');
-      final shopSnapshot =
-          await FirebaseDatabase.instance.ref().child('shops').child(_shopId!).get();
-      if (!shopSnapshot.exists || (shopSnapshot.value as Map)['ownerId'] != user.uid) {
+      final shopDoc = await FirebaseFirestore.instance
+          .collection('shops')
+          .doc(_shopId!)
+          .get();
+      if (!shopDoc.exists || shopDoc.data()!['ownerId'] != user.uid) {
         throw Exception('Only the shop owner can manage requests.');
       }
       await _authService.manageRequest(_shopId!, userId, approve);
