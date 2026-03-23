@@ -12,6 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   provider: ^6.1.2
+  get_it: ^7.6.0  # Service Locator for dependency injection
   font_awesome_flutter: ^10.6.0
   animations: ^2.0.8
   sqflite: ^2.3.3+1
@@ -19,13 +20,13 @@ dependencies:
   csv: ^6.0.0
   share_plus: ^11.0.0
   path_provider: ^2.1.1
-  file_picker: ^10.1.2  # Update to the latest version
+  file_picker: ^10.1.2
   fl_chart: ^0.71.0
   connectivity_plus: ^5.0.2
   firebase_auth: ^4.16.0
   firebase_messaging: ^14.7.10
   logger: ^2.0.2
-  intl: ^0.19.0
+  intl: ^0.20.2
   uuid: ^4.0.0
   firebase_core: ^2.24.0
   firebase_database: ^10.3.0

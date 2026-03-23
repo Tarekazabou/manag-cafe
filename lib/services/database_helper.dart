@@ -40,7 +40,7 @@ class DatabaseHelper {
         buyPrice REAL NOT NULL,
         sellPrice REAL NOT NULL,
         lowStockThreshold REAL NOT NULL,
-        isSellable INTEGER NOT NULL DEFAULT 1 -- New column for sellable status
+        isSellable INTEGER NOT NULL DEFAULT 1
       )
     ''');
     await db.execute('''
@@ -61,6 +61,19 @@ class DatabaseHelper {
         timeSlot TEXT NOT NULL,
         weather TEXT NOT NULL,
         FOREIGN KEY (itemId) REFERENCES inventory_items(id)
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE sync_queue (
+        id TEXT PRIMARY KEY,
+        entityId TEXT NOT NULL,
+        type TEXT NOT NULL,
+        collection TEXT NOT NULL,
+        data TEXT NOT NULL,
+        createdAt TEXT NOT NULL,
+        syncedAt TEXT,
+        retryCount INTEGER NOT NULL DEFAULT 0,
+        error TEXT
       )
     ''');
     print('Database tables created successfully');

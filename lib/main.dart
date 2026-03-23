@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'core/dependency_injection/service_locator.dart';
+import 'core/utils/logger.dart';
 import 'providers/app_provider.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/sales_screen.dart';
@@ -22,11 +24,21 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
   try {
     await Firebase.initializeApp();
-    print('Firebase initialized successfully');
+    logger.info('✅ Firebase initialized successfully');
   } catch (e) {
-    print('Error initializing Firebase: $e');
+    logger.error('❌ Error initializing Firebase', error: e);
+  }
+
+  // Initialize Service Locator
+  try {
+    await ServiceLocator.setup();
+    logger.info('✅ Service locator initialized');
+  } catch (e) {
+    logger.error('❌ Error initializing service locator', error: e);
   }
 
   await FirebaseAuth.instance.setLanguageCode('fr');
@@ -34,7 +46,8 @@ void main() async {
   final messaging = FirebaseMessaging.instance;
   await messaging.requestPermission();
   final token = await messaging.getToken();
-  print('FCM Token: $token');
+  logger.info('📱 FCM Token: $token');
+  
   runApp(const CoffeeShopManagerApp());
 }
 
