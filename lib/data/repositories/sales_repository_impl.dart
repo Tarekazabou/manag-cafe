@@ -2,7 +2,7 @@ import '../../domain/entities/sale.dart';
 import '../../domain/repositories/sales_repository.dart';
 import '../datasources/local_datasource.dart';
 import '../datasources/remote_datasource.dart';
-import './connectivity_service.dart';
+import '../services/connectivity_service.dart';
 import '../../core/services/retry_service.dart';
 
 class SalesRepositoryImpl implements SalesRepository {
@@ -90,3 +90,4 @@ class SalesRepositoryImpl implements SalesRepository {
         .toList();
   }
 }
+

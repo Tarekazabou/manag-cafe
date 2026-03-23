@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/inventory_item.dart';
-import '../models/sale.dart';
-import '../models/inventory_snapshot.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_item.dart';
+import 'package:coffee_shop_manager/domain/entities/sale.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_snapshot.dart';
 
 class FirebaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

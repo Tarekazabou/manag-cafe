@@ -1,17 +1,17 @@
 import 'package:get_it/get_it.dart';
-import '../services/database_helper.dart';
-import '../data/services/connectivity_service.dart';
-import '../data/datasources/remote_datasource.dart';
-import '../data/datasources/local_datasource.dart';
-import '../data/services/sync_queue.dart';
-import '../data/repositories/inventory_repository_impl.dart';
-import '../data/repositories/sales_repository_impl.dart';
-import '../data/repositories/snapshot_repository_impl.dart';
-import '../domain/repositories/inventory_repository.dart';
-import '../domain/repositories/sales_repository.dart';
-import '../domain/repositories/snapshot_repository.dart';
-import '../domain/usecases/add_sale_usecase.dart';
-import '../domain/usecases/calculate_profit_usecase.dart';
+import '../../services/database_helper.dart';
+import '../../data/services/connectivity_service.dart';
+import '../../data/datasources/remote_datasource.dart';
+import '../../data/datasources/local_datasource.dart';
+import '../../data/services/sync_queue.dart';
+import '../../data/repositories/inventory_repository_impl.dart';
+import '../../data/repositories/sales_repository_impl.dart';
+import '../../data/repositories/snapshot_repository_impl.dart';
+import '../../domain/repositories/inventory_repository.dart';
+import '../../domain/repositories/sales_repository.dart';
+import '../../domain/repositories/snapshot_repository.dart';
+import '../../domain/usecases/add_sale_usecase.dart';
+import '../../domain/usecases/calculate_profit_usecase.dart';
 
 final getIt = GetIt.instance;
 

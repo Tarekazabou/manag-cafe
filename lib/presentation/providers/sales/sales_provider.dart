@@ -1,3 +1,4 @@
+import '../../../domain/entities/sale.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/repositories/sales_repository.dart';
 import '../../../domain/repositories/inventory_repository.dart';
@@ -93,4 +94,4 @@ class SalesProvider extends ChangeNotifier {
   }
 }
 
-import '../../../domain/entities/sale.dart';
+

@@ -1,3 +1,5 @@
+import '../../core/enums/inventory_enums.dart';
+
 class InventoryItem {
   final String id;
   final String name;
@@ -6,6 +8,9 @@ class InventoryItem {
   final double sellPrice;
   final double lowStockThreshold;
   final bool isSellable;
+  final ItemCategory category;
+  final ItemUnit unit;
+  final String? notes;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String createdBy;
@@ -19,9 +24,12 @@ class InventoryItem {
     required this.sellPrice,
     required this.lowStockThreshold,
     this.isSellable = true,
+    this.category = ItemCategory.other,
+    this.unit = ItemUnit.piece,
+    this.notes,
     DateTime? createdAt,
     DateTime? updatedAt,
-    required this.createdBy,
+    this.createdBy = 'sys',
     this.updatedBy,
   })  : createdAt = createdAt ?? DateTime.now(),
         updatedAt = updatedAt ?? DateTime.now();
@@ -33,6 +41,9 @@ class InventoryItem {
     double? sellPrice,
     double? lowStockThreshold,
     bool? isSellable,
+    ItemCategory? category,
+    ItemUnit? unit,
+    String? notes,
     DateTime? updatedAt,
     String? updatedBy,
   }) =>
@@ -44,6 +55,9 @@ class InventoryItem {
         sellPrice: sellPrice ?? this.sellPrice,
         lowStockThreshold: lowStockThreshold ?? this.lowStockThreshold,
         isSellable: isSellable ?? this.isSellable,
+        category: category ?? this.category,
+        unit: unit ?? this.unit,
+        notes: notes ?? this.notes,
         createdAt: createdAt,
         updatedAt: updatedAt ?? DateTime.now(),
         createdBy: createdBy,
@@ -58,6 +72,9 @@ class InventoryItem {
         'sellPrice': sellPrice,
         'lowStockThreshold': lowStockThreshold,
         'isSellable': isSellable,
+        'category': category.name,
+        'unit': unit.name,
+        'notes': notes,
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
         'createdBy': createdBy,
@@ -88,6 +105,15 @@ class InventoryItem {
           ? json['isSellable'] == 1
           : json['isSellable'] as bool?) ??
           true,
+      category: ItemCategory.values.firstWhere(
+        (e) => e.name == json['category'],
+        orElse: () => ItemCategory.other,
+      ),
+      unit: ItemUnit.values.firstWhere(
+        (e) => e.name == json['unit'],
+        orElse: () => ItemUnit.piece,
+      ),
+      notes: json['notes']?.toString(),
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
           : DateTime.now(),

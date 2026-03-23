@@ -1,0 +1,1 @@
+import 'dart:io'; void main() { var file = File('lib/main.dart'); var content = file.readAsStringSync(); content = content.replaceAll('CardTheme(', 'CardThemeData('); file.writeAsStringSync(content); }

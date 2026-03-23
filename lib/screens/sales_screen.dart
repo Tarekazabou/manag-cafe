@@ -200,7 +200,7 @@ class _SalesScreenState extends State<SalesScreen> {
                           subtitle: Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(
-                              'Qté: ${sale.quantity}, Prix: ${sale.sellingPrice} €, Date: ${sale.date.substring(0, 10)}',
+                              'Qté: ${sale.quantity}, Prix: ${sale.sellingPrice} €, Date: ${sale.date.toIso8601String().substring(0, 10)}',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
@@ -265,7 +265,7 @@ class _SalesScreenState extends State<SalesScreen> {
                               _buildDetailRow(
                                 context,
                                 'Date',
-                                sale.date.substring(0, 10),
+                                sale.date.toIso8601String().substring(0, 10),
                                 FontAwesomeIcons.calendar,
                               ),
                             ],

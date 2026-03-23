@@ -1,3 +1,4 @@
+import '../../../domain/entities/inventory_item.dart';
 class InventoryState {
   final List<InventoryItem> items;
   final bool isLoading;
@@ -25,4 +26,5 @@ class InventoryState {
       );
 }
 
-import '../../domain/entities/inventory_item.dart';
+
+

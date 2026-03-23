@@ -38,7 +38,7 @@ class AddSaleUseCase {
     final item = await _inventoryRepository.getItem(shopId, itemId);
 
     if (item == null) {
-      throw ValidationException('Item not found');
+      throw ValidationException(message: 'Item not found');
     }
 
     // Validate stock
@@ -98,3 +98,4 @@ class AddSaleUseCase {
     }
   }
 }
+

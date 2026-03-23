@@ -7,6 +7,23 @@ final logger = Logger(
     lineLength: 120,
     colors: true,
     printEmojis: true,
-    dateTimeFormat: DateTimeFormat.onlyTimeAndSinceMillis,
   ),
 );
+
+extension LoggerExtension on Logger {
+  void info(String message) {
+    log(Level.info, message);
+  }
+
+  void error(String message, {Object? error}) {
+    log(Level.error, message, error: error);
+  }
+
+  void warning(String message) {
+    log(Level.warning, message);
+  }
+
+  void debug(String message) {
+    log(Level.debug, message);
+  }
+}

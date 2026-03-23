@@ -1,3 +1,5 @@
+import '../core/enums/inventory_enums.dart';
+
 class InventoryItem {
   final String id;
   final String name;
@@ -5,7 +7,10 @@ class InventoryItem {
   final double buyPrice;
   final double sellPrice;
   final double lowStockThreshold;
-  final bool isSellable; // New field to indicate if the item is directly sold
+  final bool isSellable; // New field to indicate if the item is directly sold  
+  final ItemCategory category;
+  final ItemUnit unit;
+  final String? notes;
 
   InventoryItem({
     required this.id,
@@ -15,6 +20,9 @@ class InventoryItem {
     required this.sellPrice,
     required this.lowStockThreshold,
     this.isSellable = true, // Default to true for existing items
+    this.category = ItemCategory.other,
+    this.unit = ItemUnit.piece,
+    this.notes,
   });
 
   Map<String, dynamic> toJson() {
@@ -25,7 +33,10 @@ class InventoryItem {
       'buyPrice': buyPrice,
       'sellPrice': sellPrice,
       'lowStockThreshold': lowStockThreshold,
-      'isSellable': isSellable ? 1 : 0, // Convert bool to int for SQLite
+      'isSellable': isSellable ? 1 : 0, // Convert bool to int for SQLite       
+      'category': category.name,
+      'unit': unit.name,
+      'notes': notes,
     };
   }
 
@@ -51,7 +62,16 @@ class InventoryItem {
           : json['lowStockThreshold'] as double?) ?? 0.0,
       isSellable: (json['isSellable'] is int
           ? json['isSellable'] == 1
-          : json['isSellable'] as bool?) ?? true, // Convert int to bool, with default
+          : json['isSellable'] as bool?) ?? true,
+      category: ItemCategory.values.firstWhere(
+        (e) => e.name == json['category'],
+        orElse: () => ItemCategory.other,
+      ),
+      unit: ItemUnit.values.firstWhere(
+        (e) => e.name == json['unit'],
+        orElse: () => ItemUnit.piece,
+      ),
+      notes: json['notes']?.toString(),
     );
   }
 }

@@ -44,7 +44,7 @@ class RetryService {
       }
     }
 
-    throw AppException(
+    throw SyncException(
       message: '$operationName failed after $maxRetries attempts',
       originalError: lastError,
     );

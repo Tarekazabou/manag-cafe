@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../models/inventory_item.dart';
-import '../models/inventory_snapshot.dart';
+import 'package:coffee_shop_manager/l10n/app_localizations.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_item.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_snapshot.dart';
 import '../providers/app_provider.dart';
 
 class InventoryTableScreen extends StatefulWidget {
@@ -88,7 +88,7 @@ class _InventoryTableScreenState extends State<InventoryTableScreen> {
             id: const Uuid().v4(),
             itemId: item.id,
             quantity: quantity,
-            timestamp: '${widget.selectedDate} ${widget.selectedTimeSlot}:00',
+            timestamp: DateTime.parse('${widget.selectedDate} ${widget.selectedTimeSlot}:00'),
             timeSlot: widget.selectedTimeSlot,
             weather: widget.selectedWeather,
           );
@@ -478,3 +478,4 @@ class _InventoryTableScreenState extends State<InventoryTableScreen> {
     );
   }
 }
+

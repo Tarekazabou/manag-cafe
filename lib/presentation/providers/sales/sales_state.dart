@@ -1,3 +1,4 @@
+import '../../../domain/entities/sale.dart';
 class SalesState {
   final List<Sale> sales;
   final bool isLoading;
@@ -25,4 +26,5 @@ class SalesState {
       );
 }
 
-import '../../domain/entities/sale.dart';
+
+

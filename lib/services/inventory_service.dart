@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
-import '../models/inventory_item.dart';
-import '../models/sale.dart';
-import '../models/inventory_snapshot.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_item.dart';
+import 'package:coffee_shop_manager/domain/entities/sale.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_snapshot.dart';
 
 class InventoryService {
   final String shopId;
@@ -53,7 +53,7 @@ class InventoryService {
           itemName: sale['itemName'] as String,
           quantity: (sale['quantity'] as num).toInt(),
           sellingPrice: (sale['sellingPrice'] as num).toDouble(),
-          date: sale['date'] as String,
+          date: DateTime.parse(sale['date'] as String),
         );
       }).toList();
     });

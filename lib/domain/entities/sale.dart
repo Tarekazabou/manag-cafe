@@ -13,15 +13,15 @@ class Sale {
 
   Sale({
     required this.id,
-    required this.itemId,
+    this.itemId = '',
     required this.itemName,
     required this.quantity,
     required this.sellingPrice,
-    required this.totalAmount,
-    required this.cost,
-    required this.margin,
+    this.totalAmount = 0.0,
+    this.cost = 0.0,
+    this.margin = 0.0,
     required this.date,
-    required this.createdBy,
+    this.createdBy = 'sys',
     this.updatedBy,
   });
 
@@ -98,3 +98,4 @@ class Sale {
     );
   }
 }
+

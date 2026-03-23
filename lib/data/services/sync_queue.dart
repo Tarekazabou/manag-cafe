@@ -1,3 +1,4 @@
+import '../../domain/entities/sale.dart';
 import 'dart:async';
 import '../../domain/entities/value_objects.dart';
 import '../datasources/remote_datasource.dart';
@@ -78,12 +79,15 @@ class SyncQueue {
     switch (op.type) {
       case SyncOperationType.create:
         await _remoteDataSource.saveSale('shopId', Sale.fromJson(op.data));
+        break;
 
       case SyncOperationType.update:
         await _remoteDataSource.saveSale('shopId', Sale.fromJson(op.data));
+        break;
 
       case SyncOperationType.delete:
         await _remoteDataSource.deleteSale('shopId', op.entityId);
+        break;
     }
   }
 
@@ -95,5 +99,5 @@ class SyncQueue {
   }
 }
 
-// Import Sale for this file to work
-import '../../domain/entities/sale.dart';
+
+

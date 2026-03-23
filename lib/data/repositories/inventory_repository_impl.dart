@@ -2,7 +2,7 @@ import '../../domain/entities/inventory_item.dart';
 import '../../domain/repositories/inventory_repository.dart';
 import '../datasources/local_datasource.dart';
 import '../datasources/remote_datasource.dart';
-import './connectivity_service.dart';
+import '../services/connectivity_service.dart';
 import '../../core/services/retry_service.dart';
 
 class InventoryRepositoryImpl implements InventoryRepository {
@@ -97,3 +97,4 @@ class InventoryRepositoryImpl implements InventoryRepository {
     }
   }
 }
+

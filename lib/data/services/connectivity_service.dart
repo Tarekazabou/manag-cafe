@@ -5,7 +5,7 @@ enum ConnectivityStatus { connected, disconnected }
 
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<List<ConnectivityResult>> _subscription;
+  late StreamSubscription<ConnectivityResult> _subscription;
 
   final _statusController =
       StreamController<ConnectivityStatus>.broadcast();
@@ -19,8 +19,7 @@ class ConnectivityService {
   void initialize() {
     _subscription =
         _connectivity.onConnectivityChanged.listen((result) {
-      final newStatus = result.isEmpty ||
-              result.every((r) => r == ConnectivityResult.none)
+      final newStatus = result == ConnectivityResult.none
           ? ConnectivityStatus.disconnected
           : ConnectivityStatus.connected;
 
@@ -34,3 +33,4 @@ class ConnectivityService {
     _statusController.close();
   }
 }
+

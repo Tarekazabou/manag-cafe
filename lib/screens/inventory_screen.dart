@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_shop_manager/l10n/app_localizations.dart';
 import '../providers/app_provider.dart';
-import '../models/inventory_item.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_item.dart';
 
 class InventoryScreen extends StatefulWidget {
   const InventoryScreen({super.key});
@@ -294,3 +294,4 @@ class _InventoryScreenState extends State<InventoryScreen> {
     );
   }
 }
+

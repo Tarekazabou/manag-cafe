@@ -1,8 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../models/inventory_item.dart';
-import '../models/sale.dart';
-import '../models/inventory_snapshot.dart';
+import '../domain/entities/inventory_item.dart';
+import '../domain/entities/sale.dart';
+import '../domain/entities/inventory_snapshot.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -10,7 +10,7 @@ class DatabaseHelper {
   DatabaseHelper._init();
 
   static const String _databaseName = 'coffee_shop.db';
-  static const int _databaseVersion = 9; // Already at 9 for isSellable field
+  static const int _databaseVersion = 10; // Version 10 for roadmap phase 1 fields
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -40,7 +40,14 @@ class DatabaseHelper {
         buyPrice REAL NOT NULL,
         sellPrice REAL NOT NULL,
         lowStockThreshold REAL NOT NULL,
-        isSellable INTEGER NOT NULL DEFAULT 1
+        isSellable INTEGER NOT NULL DEFAULT 1,
+        category TEXT NOT NULL DEFAULT 'other',
+        unit TEXT NOT NULL DEFAULT 'piece',
+        notes TEXT,
+        createdAt TEXT NOT NULL DEFAULT '2020-01-01T00:00:00.000Z',
+        updatedAt TEXT NOT NULL DEFAULT '2020-01-01T00:00:00.000Z',
+        createdBy TEXT NOT NULL DEFAULT 'sys',
+        updatedBy TEXT
       )
     ''');
     await db.execute('''
@@ -288,6 +295,29 @@ class DatabaseHelper {
       }
     }
 
+    if (oldVersion < 10) {
+      print('Migration for version 10: Adding category, unit, and notes columns to inventory_items');
+      if (!(await columnExists(db, 'inventory_items', 'category'))) {
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN category TEXT NOT NULL DEFAULT 'other'");
+        print('category column added successfully');
+      }
+      if (!(await columnExists(db, 'inventory_items', 'unit'))) {
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN unit TEXT NOT NULL DEFAULT 'piece'");
+        print('unit column added successfully');
+      }
+      if (!(await columnExists(db, 'inventory_items', 'notes'))) {
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN notes TEXT");
+        print('notes column added successfully');
+      }
+      if (!(await columnExists(db, 'inventory_items', 'createdAt'))) {
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN createdAt TEXT NOT NULL DEFAULT '2020-01-01T00:00:00.000Z'");
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN updatedAt TEXT NOT NULL DEFAULT '2020-01-01T00:00:00.000Z'");
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN createdBy TEXT NOT NULL DEFAULT 'sys'");
+        await db.execute("ALTER TABLE inventory_items ADD COLUMN updatedBy TEXT");
+        print('audit columns added successfully');
+      }
+    }
+
     print('Database upgrade completed');
   }
 
@@ -433,3 +463,7 @@ class DatabaseHelper {
     }
   }
 }
+
+
+
+

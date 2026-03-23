@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../models/inventory_item.dart';
-import '../models/sale.dart';
-import '../models/inventory_snapshot.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_item.dart';
+import '../core/enums/inventory_enums.dart';
+import 'package:coffee_shop_manager/domain/entities/sale.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_snapshot.dart';
 import '../services/database_helper.dart';
 import '../services/auth_service.dart';
 import '../services/firebase_service.dart';
@@ -127,12 +128,39 @@ class AppProvider with ChangeNotifier {
     try {
       final existingItems = await _dbHelper.getInventoryItems();
       final requiredItems = [
-        {'name': 'G. 12', 'isSellable': true},
-        {'name': 'G. 25', 'isSellable': true},
-        {'name': 'Sugar', 'isSellable': false},
-        {'name': 'Vanilla Syrup', 'isSellable': false},
-        {'name': 'Water Bottle 1.5L', 'isSellable': true},
-      ];
+          {'name': 'G. 12', 'isSellable': true, 'category': ItemCategory.coffeeBeans, 'unit': ItemUnit.piece},
+          {'name': 'G. 25', 'isSellable': true, 'category': ItemCategory.coffeeBeans, 'unit': ItemUnit.piece},
+          {'name': 'Sugar', 'isSellable': false, 'category': ItemCategory.other, 'unit': ItemUnit.box},
+          {'name': 'Vanilla Syrup', 'isSellable': false, 'category': ItemCategory.syrup, 'unit': ItemUnit.ml},
+          {'name': 'Water Bottle 1.5L', 'isSellable': true, 'category': ItemCategory.other, 'unit': ItemUnit.piece},
+          {'name': 'Espresso Beans House Blend', 'category': ItemCategory.coffeeBeans, 'unit': ItemUnit.kg, 'isSellable': false},
+          {'name': 'Decaf Espresso Beans', 'category': ItemCategory.coffeeBeans, 'unit': ItemUnit.kg, 'isSellable': false},
+          {'name': 'Single Origin Columbia', 'category': ItemCategory.coffeeBeans, 'unit': ItemUnit.kg, 'isSellable': true},
+          {'name': 'Whole Milk', 'category': ItemCategory.milk, 'unit': ItemUnit.l, 'isSellable': false},
+          {'name': 'Oat Milk', 'category': ItemCategory.milk, 'unit': ItemUnit.l, 'isSellable': false},
+          {'name': 'Almond Milk', 'category': ItemCategory.milk, 'unit': ItemUnit.l, 'isSellable': false},
+          {'name': 'Caramel Syrup', 'category': ItemCategory.syrup, 'unit': ItemUnit.ml, 'isSellable': false},
+          {'name': 'Hazelnut Syrup', 'category': ItemCategory.syrup, 'unit': ItemUnit.ml, 'isSellable': false},
+          {'name': 'Chocolate Sauce', 'category': ItemCategory.syrup, 'unit': ItemUnit.ml, 'isSellable': false},
+          {'name': 'Butter Croissant', 'category': ItemCategory.pastry, 'unit': ItemUnit.piece, 'isSellable': true},
+          {'name': 'Chocolate Croissant', 'category': ItemCategory.pastry, 'unit': ItemUnit.piece, 'isSellable': true},
+          {'name': 'Blueberry Muffin', 'category': ItemCategory.pastry, 'unit': ItemUnit.piece, 'isSellable': true},
+          {'name': 'Banana Nut Bread', 'category': ItemCategory.pastry, 'unit': ItemUnit.piece, 'isSellable': true},
+          {'name': 'Cinnamon Roll', 'category': ItemCategory.pastry, 'unit': ItemUnit.piece, 'isSellable': true},
+          {'name': 'Ham & Cheese Sandwich', 'category': ItemCategory.food, 'unit': ItemUnit.piece, 'isSellable': true},
+          {'name': 'Paper Cup 8oz', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Paper Cup 12oz', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Paper Cup 16oz', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Cup Lids Hot', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Straws', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Napkins', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Paper Bags', 'category': ItemCategory.packaging, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Espresso Machine Cleaner', 'category': ItemCategory.cleaning, 'unit': ItemUnit.piece, 'isSellable': false},
+          {'name': 'Dish Soap', 'category': ItemCategory.cleaning, 'unit': ItemUnit.l, 'isSellable': false},
+          {'name': 'Paper Towels', 'category': ItemCategory.cleaning, 'unit': ItemUnit.pack, 'isSellable': false},
+          {'name': 'Trash Bags', 'category': ItemCategory.cleaning, 'unit': ItemUnit.box, 'isSellable': false},
+          {'name': 'Sparkling Water', 'category': ItemCategory.other, 'unit': ItemUnit.piece, 'isSellable': true},
+        ];
       for (var itemData in requiredItems) {
         final itemName = itemData['name'] as String;
         if (!existingItems.any((item) => item.name == itemName)) {
@@ -144,7 +172,7 @@ class AppProvider with ChangeNotifier {
             buyPrice: 1.0,
             sellPrice: 2.0,
             lowStockThreshold: itemName == 'Sugar' ? 1.0 : 10.0,
-            isSellable: itemData['isSellable'] as bool,
+            isSellable: itemData['isSellable'] as bool, category: itemData['category'] as ItemCategory? ?? ItemCategory.other, unit: itemData['unit'] as ItemUnit? ?? ItemUnit.piece,
           );
           await _dbHelper.insertInventoryItem(item);
           if (_shopId != null) {
@@ -418,7 +446,7 @@ class AppProvider with ChangeNotifier {
         id: FirebaseFirestore.instance.collection('snapshots').doc().id,
         itemId: itemId,
         quantity: deliveredQuantity,
-        timestamp: DateTime.now().toIso8601String(),
+        timestamp: DateTime.now(),
         timeSlot: timeSlot,
         weather: weather,
       );
@@ -461,7 +489,7 @@ class AppProvider with ChangeNotifier {
               itemName: item.name,
               quantity: consumption.toInt(),
               sellingPrice: item.sellPrice,
-              date: date,
+              date: DateTime.parse(date),
             );
             await addSale(sale);
           }
@@ -534,7 +562,7 @@ class AppProvider with ChangeNotifier {
 
   double getDeliveredQuantitySync(String itemId, String date) {
     final snapshots = _snapshots
-        .where((s) => s.itemId == itemId && s.timestamp.startsWith(date))
+        .where((s) => s.itemId == itemId && s.timestamp.toIso8601String().startsWith(date))
         .toList();
     final double result = snapshots.fold(
         0.0, (double sum, InventorySnapshot s) => sum + (s.quantity > 0 ? s.quantity : 0));
@@ -600,7 +628,7 @@ class AppProvider with ChangeNotifier {
               itemName: item.name,
               quantity: consumed.toInt(),
               sellingPrice: item.sellPrice,
-              date: date,
+              date: DateTime.parse(date),
             );
             await addSale(sale);
           }
@@ -616,7 +644,7 @@ class AppProvider with ChangeNotifier {
   Future<double> getDeliveredQuantity(String itemId, String date) async {
     try {
       final snapshots = _snapshots
-          .where((s) => s.itemId == itemId && s.timestamp.startsWith(date))
+          .where((s) => s.itemId == itemId && s.timestamp.toIso8601String().startsWith(date))
           .toList();
       final result = snapshots.fold(
           0.0, (double sum, InventorySnapshot s) => sum + (s.quantity > 0 ? s.quantity : 0));
@@ -649,12 +677,12 @@ class AppProvider with ChangeNotifier {
       final relevantSnapshots = _snapshots
           .where((s) =>
               s.itemId == item.id &&
-              DateTime.parse(s.timestamp).isBefore(targetTime))
+              s.timestamp.isBefore(targetTime))
           .toList();
 
       if (relevantSnapshots.isNotEmpty) {
         relevantSnapshots.sort((a, b) =>
-            DateTime.parse(b.timestamp).compareTo(DateTime.parse(a.timestamp)));
+            b.timestamp.compareTo(a.timestamp));
         quantities[item.name] = relevantSnapshots.first.quantity;
       }
     }
@@ -739,7 +767,7 @@ class AppProvider with ChangeNotifier {
       (stats['issues'] as List<String>).add('$sugarName not found in inventory');
     }
 
-    final dailySales = _sales.where((sale) => sale.date.startsWith(date)).toList();
+    final dailySales = _sales.where((sale) => sale.date.toIso8601String().startsWith(date)).toList();
     int g12Sold = 0;
     int g25Sold = 0;
     for (var sale in dailySales) {
@@ -882,3 +910,7 @@ class AppProvider with ChangeNotifier {
     }
   }
 }
+
+
+
+

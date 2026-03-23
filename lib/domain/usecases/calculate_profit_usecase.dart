@@ -24,18 +24,20 @@ class CalculateProfitUseCase {
       totalItemsSold += sale.quantity;
     }
 
-    final profit = totalRevenue - totalCost;
-    final marginPercent = totalRevenue > 0 ? (profit / totalRevenue) * 100 : 0;
+    final profitAmt = totalRevenue - totalCost;
+    final marginPercent = totalRevenue > 0 ? (profitAmt / totalRevenue) * 100 : 0.0;
 
     return ProfitMetrics(
       totalRevenue: totalRevenue,
       totalCost: totalCost,
-      totalProfit: profit,
-      marginPercent: marginPercent,
+      profit: profitAmt,
+      marginPercent: marginPercent.toDouble(),
       avgTransactionValue:
-          sales.isNotEmpty ? totalRevenue / sales.length : 0,
+          sales.isNotEmpty ? totalRevenue / sales.length : 0.0,
       itemsSoldCount: totalItemsSold,
+      calculatedAt: DateTime.now(),
       transactionCount: sales.length,
     );
   }
 }
+

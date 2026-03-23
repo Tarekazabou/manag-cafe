@@ -25,6 +25,7 @@ class SyncOperation {
   bool get needsRetry => retryCount < 3 && !isSynced;
 
   SyncOperation copyWith({
+    DateTime? createdAt,
     DateTime? syncedAt,
     int? retryCount,
     String? error,
@@ -35,7 +36,7 @@ class SyncOperation {
         type: type,
         collection: collection,
         data: data,
-        createdAt: createdAt,
+        createdAt: createdAt ?? this.createdAt,
         syncedAt: syncedAt ?? this.syncedAt,
         retryCount: retryCount ?? this.retryCount,
         error: error,
@@ -93,3 +94,4 @@ class ProfitMetrics {
     DateTime? calculatedAt,
   }) : calculatedAt = calculatedAt ?? DateTime.now();
 }
+

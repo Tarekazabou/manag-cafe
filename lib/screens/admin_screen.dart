@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animations/animations.dart';
-import '../models/inventory_item.dart';
+import 'package:coffee_shop_manager/domain/entities/inventory_item.dart';
 import '../providers/app_provider.dart';
 
 class AdminScreen extends StatefulWidget {

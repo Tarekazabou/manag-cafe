@@ -2,7 +2,7 @@ import '../../domain/entities/inventory_snapshot.dart';
 import '../../domain/repositories/snapshot_repository.dart';
 import '../datasources/local_datasource.dart';
 import '../datasources/remote_datasource.dart';
-import './connectivity_service.dart';
+import '../services/connectivity_service.dart';
 import '../../core/services/retry_service.dart';
 
 class SnapshotRepositoryImpl implements SnapshotRepository {
@@ -51,3 +51,4 @@ class SnapshotRepositoryImpl implements SnapshotRepository {
     }
   }
 }
+

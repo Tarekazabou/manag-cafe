@@ -49,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (item == null) return false;
       final searchLower = _searchQuery.toLowerCase();
       return item.name.toLowerCase().contains(searchLower) ||
-          snapshot.timestamp.toLowerCase().contains(searchLower) ||
+          snapshot.timestamp.toIso8601String().toLowerCase().contains(searchLower) ||
           snapshot.timeSlot.toLowerCase().contains(searchLower) ||
           snapshot.weather.toLowerCase().contains(searchLower);
     }).toList();
@@ -248,7 +248,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   _buildDetailRow(
                                     context,
                                     'Date et heure',
-                                    snapshot.timestamp,
+                                    snapshot.timestamp.toIso8601String(),
                                     FontAwesomeIcons.calendar,
                                   ),
                                   const SizedBox(height: 16),

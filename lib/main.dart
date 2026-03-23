@@ -6,7 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coffee_shop_manager/l10n/app_localizations.dart';
+import 'firebase_options.dart';
 import 'core/dependency_injection/service_locator.dart';
 import 'core/utils/logger.dart';
 import 'providers/app_provider.dart';
@@ -18,7 +19,7 @@ import 'services/auth_service.dart';
 import 'screens/manage_requests_screen.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   print('Handling a background message: ${message.messageId}');
 }
 
@@ -27,7 +28,7 @@ void main() async {
   
   // Initialize Firebase
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
     logger.info('✅ Firebase initialized successfully');
   } catch (e) {
     logger.error('❌ Error initializing Firebase', error: e);
@@ -109,7 +110,7 @@ class CoffeeShopManagerApp extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
     ),
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),

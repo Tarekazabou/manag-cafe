@@ -76,9 +76,9 @@ class InsufficientStockException extends AppException {
 }
 
 class TransactionFailedException extends AppException {
-  TransactionFailedException(super.message);
+  TransactionFailedException(String message) : super(message: message);
 }
 
 class DataVerificationException extends AppException {
-  DataVerificationException(super.message);
+  DataVerificationException(String message) : super(message: message);
 }

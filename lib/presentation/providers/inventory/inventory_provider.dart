@@ -1,3 +1,4 @@
+import '../../../domain/entities/inventory_item.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/repositories/inventory_repository.dart';
 import '../../../core/utils/logger.dart';
@@ -99,4 +100,4 @@ class InventoryProvider extends ChangeNotifier {
   }
 }
 
-import '../../../domain/entities/inventory_item.dart';
+
